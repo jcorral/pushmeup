@@ -115,8 +115,8 @@ module Pushmeup::APNS
     end
 
     def kill_connection
-      @ssl.close
-      @sock.close
+      @ssl.close if @ssl
+      @sock.close if @sock
       @ssl = nil
       @sock = nil
     end
