@@ -1,4 +1,4 @@
-module GCM
+module Pushmeup::GCM
   class Notification
     attr_accessor :device_tokens, :data, :collapse_key, :time_to_live, :delay_while_idle
 

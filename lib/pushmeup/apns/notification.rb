@@ -1,4 +1,4 @@
-module APNS
+module Pushmeup::APNS
   class Notification
     attr_accessor :device_token, :alert, :badge, :sound, :category, :content_available, :other
 
