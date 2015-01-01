@@ -90,10 +90,7 @@ module Pushmeup::APNS
 
     def close
       @@mutex.synchronize do
-        @ssl.close
-        @sock.close
-        @ssl = nil
-        @sock = nil
+        kill_connection
       end
     end
 
@@ -117,6 +114,13 @@ module Pushmeup::APNS
       @ssl ||= OpenSSL::SSL::SSLSocket.new(sock, context)
     end
 
+    def kill_connection
+      @ssl.close
+      @sock.close
+      @ssl = nil
+      @sock = nil
+    end
+
     #######
     private
     #######
@@ -134,14 +138,14 @@ module Pushmeup::APNS
 
       rescue StandardError, Errno::EPIPE
         raise unless attempts < RETRIES
-        close
+        kill_connection
         attempts += 1
         retry
       end
 
       # Only close if not persistent
       unless persistent
-        close
+        kill_connection
       end
     end
 
