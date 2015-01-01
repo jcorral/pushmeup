@@ -1,6 +1,5 @@
 require 'socket'
 require 'openssl'
-require 'json'
 
 module Pushmeup::APNS
   @mutex = Mutex.new

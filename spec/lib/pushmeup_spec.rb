@@ -1,16 +1,17 @@
 require 'spec_helper'
 
 describe Pushmeup do
+
+
+
   describe "APNS" do
-    it "should have a APNS object" do
-      defined?(APNS).should_not be_false
-    end
+    let(:apns) {Pushmeup::APNS::Gateway.new}
 
     it "should not forget the APNS default parameters" do
-      APNS.host.should == "gateway.sandbox.push.apple.com"
-      APNS.port.should == 2195
-      APNS.pem.should be_equal(nil)
-      APNS.pass.should be_equal(nil)
+      apns.host.should == "gateway.sandbox.push.apple.com"
+      apns.port.should == 2195
+      apns.pem.should be_equal(nil)
+      apns.pass.should be_equal(nil)
     end
 
     describe "Notifications" do
@@ -18,8 +19,8 @@ describe Pushmeup do
       describe "#==" do
 
         it "should properly equate objects without caring about object identity" do
-          a = APNS::Notification.new("123", {:alert => "hi"})
-          b = APNS::Notification.new("123", {:alert => "hi"})
+          a = Pushmeup::APNS::Notification.new("123", {:alert => "hi"})
+          b = Pushmeup::APNS::Notification.new("123", {:alert => "hi"})
           a.should eq(b)
         end
 
@@ -30,9 +31,7 @@ describe Pushmeup do
   end
 
   describe "GCM" do
-    it "should have a GCM object" do
-      defined?(GCM).should_not be_false
-    end
+    let(:gcm) {Pushmeup::APNS::Gateway.new}
 
     describe "Notifications" do
 
@@ -41,7 +40,7 @@ describe Pushmeup do
       end
 
       it "should allow only notifications with device_tokens as array" do
-        n = GCM::Notification.new("id", @options)
+        n = Pushmeup::GCM::Notification.new("id", @options)
         n.device_tokens.is_a?(Array).should be_true
 
         n.device_tokens = ["a" "b", "c"]
@@ -52,7 +51,7 @@ describe Pushmeup do
       end
 
       it "should allow only notifications with data as hash with :data root" do
-        n = GCM::Notification.new("id", { :data => "data" })
+        n = Pushmeup::GCM::Notification.new("id", { :data => "data" })
 
         n.data.is_a?(Hash).should be_true
         n.data.should == {:data => "data"}
@@ -69,8 +68,8 @@ describe Pushmeup do
       describe "#==" do
 
         it "should properly equate objects without caring about object identity" do
-          a = GCM::Notification.new("id", { :data => "data" })
-          b = GCM::Notification.new("id", { :data => "data" })
+          a = Pushmeup::GCM::Notification.new("id", { :data => "data" })
+          b = Pushmeup::GCM::Notification.new("id", { :data => "data" })
           a.should eq(b)
         end
 
