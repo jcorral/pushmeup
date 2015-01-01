@@ -88,10 +88,12 @@ module Pushmeup::APNS
 
 
     def close
-      @ssl.close
-      @sock.close
-      @ssl = nil
-      @sock = nil
+      @mutex.synchronize do
+        @ssl.close
+        @sock.close
+        @ssl = nil
+        @sock = nil
+      end
     end
 
     def connection_unavailable?
