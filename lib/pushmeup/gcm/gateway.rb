@@ -61,7 +61,7 @@ module Pushmeup::GCM
 
     def send_to_server(headers, body)
       params = {:headers => headers, :body => body}
-      response = post(params)
+      response = self.class.post(params)
       return build_response(response)
     end
 

@@ -55,7 +55,7 @@ module Pushmeup::Fire
         client_secret: client_secret
       }
       params = {headers: headers, body: body}
-      res = post('https://api.amazon.com/auth/O2/token', params)
+      res = self.class.post('https://api.amazon.com/auth/O2/token', params)
       return res.parsed_response if res.response.code.to_i == 200
       raise 'Error getting access token'
     end
@@ -88,7 +88,7 @@ module Pushmeup::Fire
     def send_to_server(headers, body, token)
       params = {:headers => headers, :body => body}
       device_dest = HOST % [token]
-      response = post(device_dest, params)
+      response = self.class.post(device_dest, params)
       build_response(response)
     end
 
