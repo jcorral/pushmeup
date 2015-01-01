@@ -110,12 +110,14 @@ module Pushmeup::APNS
     end
 
     def ssl
+      return @ssl if @ssl
       @ssl ||= OpenSSL::SSL::SSLSocket.new(sock, context)
+      @ssl.sync_close = true
+      @ssl
     end
 
     def kill_connection
       @ssl.close if @ssl
-      @sock.close if @sock
       @ssl = nil
       @sock = nil
     end
