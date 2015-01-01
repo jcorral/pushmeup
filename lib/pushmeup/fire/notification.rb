@@ -1,4 +1,4 @@
-module FIRE
+module Pushmeup::Fire
   class Notification
     attr_accessor :device_token, :data, :consolidationKey, :expiresAfter
 
