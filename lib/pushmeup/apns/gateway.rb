@@ -50,7 +50,7 @@ module Pushmeup::APNS
     #Send notification
     def send_notification(device_token, message)
       n = Pushmeup::APNS::Notification.new(device_token, message)
-      self.send_notifications([n])
+      send_notifications([n])
     end
 
     def send_notifications(notifications)

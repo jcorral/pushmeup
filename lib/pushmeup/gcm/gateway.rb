@@ -41,10 +41,10 @@ module Pushmeup::GCM
         raise %q{If you are defining a "colapse key" you need a "time to live"}
       end
 
-      self.send_push_as_json(n)
+      send_push_as_json(n)
     end
 
-    def self.send_push_as_json(n)
+    def send_push_as_json(n)
       headers = {
         'Authorization' => "key=#{ key }",
         'Content-Type' => 'application/json',
