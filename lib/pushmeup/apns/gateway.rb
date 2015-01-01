@@ -2,12 +2,13 @@ require 'socket'
 require 'openssl'
 
 module Pushmeup::APNS
-  @mutex = Mutex.new
 
   class Gateway
     HOST = 'gateway.sandbox.push.apple.com'
     PORT = 2195
     RETRIES = 3
+
+    @@mutex = Mutex.new
 
     def initialize(options={})
       @options = options
@@ -53,7 +54,7 @@ module Pushmeup::APNS
     end
 
     def send_notifications(notifications)
-      @mutex.synchronize do
+      @@mutex.synchronize do
         with_connection do
           notifications.each do |n|
             @ssl.write(n.packaged_notification)
@@ -88,7 +89,7 @@ module Pushmeup::APNS
 
 
     def close
-      @mutex.synchronize do
+      @@mutex.synchronize do
         @ssl.close
         @sock.close
         @ssl = nil
