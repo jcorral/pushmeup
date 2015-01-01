@@ -21,7 +21,7 @@ module Pushmeup::GCM
     end
 
     def send_notification(device_tokens, data = {}, options = {})
-      n = GCM::Notification.new(device_tokens, data, options)
+      n = Pushmeup::GCM::Notification.new(device_tokens, data, options)
       send_notifications([n])
     end
 

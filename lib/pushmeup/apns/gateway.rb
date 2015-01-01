@@ -87,7 +87,6 @@ module Pushmeup::APNS
       apns_feedback
     end
 
-
     def close
       @@mutex.synchronize do
         kill_connection
