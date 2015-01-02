@@ -118,7 +118,8 @@ module Pushmeup::APNS
 
     def kill_connection
       @ssl.close if @ssl
-      @ssl = nil
+    ensure
+      @ssl = nil # Must set to nil so we create a new socket after closing
       @sock = nil
     end
 
