@@ -94,7 +94,10 @@ module Pushmeup::APNS
     end
 
     def connection_unavailable?
-      ssl.nil? || sock.nil? || ssl.closed? || sock.closed?
+      # Do not use memoized methods for objects here because
+      # 'closed?' returns false on new socket objects even before
+      # connect is called. Therefore, the nil check is very important.
+      @ssl.nil? || @sock.nil? || @ssl.closed? || @sock.closed?
     end
 
     def sock
@@ -112,12 +115,12 @@ module Pushmeup::APNS
     def ssl
       return @ssl if @ssl
       @ssl ||= OpenSSL::SSL::SSLSocket.new(sock, context)
-      @ssl.sync_close = true
       @ssl
     end
 
     def kill_connection
-      @sock.close if @sock
+      @ssl.close  unless @ssl.closed?
+      @sock.close unless @sock.closed?
     ensure
       @ssl = nil # Must set to nil so we create a new socket after closing
       @sock = nil
