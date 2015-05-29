@@ -74,9 +74,9 @@ module Pushmeup::GCM
       when 401
         {:response => 'There was an error authenticating the sender account.', :status_code => response.code}
       when 500
-        {:response => 'There was an internal error in the GCM server while trying to process the request.', :status_code => response.code}
+        {:response => 'There was an internal error in the GCM server while trying to process the request.', :headers => response.headers, :status_code => response.code}
       when 503
-        {:response => 'Server is temporarily unavailable.', :status_code => response.code}
+        {:response => 'Server is temporarily unavailable.', :headers => response.headers, :status_code => response.code}
       end
     end
 
